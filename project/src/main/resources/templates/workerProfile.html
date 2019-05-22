@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <title>Bootstrap Snippet for Datatable - Bootsnipp.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+            body{
+       @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+        body {
+            background-image: url("images/doodle.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="bg">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+    <center>
+        <h2>Добре дошли в профила си!</h2>
+    </center>
+
+</div>
+<h1 class="mycs">Подадени сигнали</h1>
+
+<table class="table table-responsive-md table-sm table-bordered" id="makeEditable">
+    <tr>
+    <tr>
+        <th>Адрес</th>
+        <th>Описание</th>
+        <th>Дата</th>
+        <th>Завършено</th>
+    <br>
+    </tr>
+    </thead>
+
+    <tbody id="request">
+    <tr>
+
+    </tr>
+    </tbody>
+</table>
+<div>
+    <form action="fix" method="put" id="form1">
+
+    </form>
+    <button type="submit" form="form1">Завърши сигнал</button>
+</div>
+<script type="text/javascript">
+
+var dataPeek;
+
+let test = () => {
+    let innerHtml = "";
+
+    $.ajax({
+         type : "GET",
+         url : "http://localhost:8080/requests",
+         contentType: "application/json",
+         dataType: "json",
+         success : function (data, status) {
+
+            for(let request of data){
+
+                let buttonDone = "<form action=\"fix\" method=\"post\" id=\"form1\"> <input type=\"radio\" name=\"requestId\" value=" + request.id  + "> </form> <button type=\"submit\" form=\"form1\">Завърши сигнал</button>"
+
+                if (request.isDone == 0) {
+                    innerHtml += "<tr><td>" + request.address + "</td> <td>"+ request.description + "</td> <td> " + request.createDate + "</td><td  value=\"request.id\">"  + buttonDone +  "</td></tr>" ;
+                } else {
+                    innerHtml += "<tr><td>" + request.address + "</td> <td>"+ request.description + "</td> <td> " + request.createDate + "</td><td>  "+request.fixDate+" </td></tr>" ;
+                }
+
+<!---->
+
+                var para = document.createElement("p");
+                var node = document.createTextNode("This is new.");
+                para.appendChild(node);
+
+                var element = document.getElementById("request");
+                element.appendChild(para);
+
+            }
+
+            document.getElementById('request').innerHTML = innerHtml;
+
+            dataPeek = data;
+
+         },
+         error : function (status) {
+            console.log("error");
+         }
+    });
+
+};
+
+test();
+
+    </script>
+</body>
+
+</html>

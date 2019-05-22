@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <title>Bootstrap Snippet for Datatable - Bootsnipp.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+            body{
+       @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+        body {
+            background-image: url("images/doodle.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="bg">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+        <center>
+            <h2>Добре дошли в профила си!</h2>
+        </center>
+
+        <a href="signalsClient" >Подадени сигнали</a>
+    </div>
+    <form class="form-signin" action="create" method="post">
+        <h1 class="mycs">Подай сигнал</h1>
+        <br>
+        <br>
+        <br>
+        <label for="address" class="sr-only">Адрес </label>
+        <br>
+        <input type="text" name="address" id="address" class="form-control" placeholder="address" required autofocus>
+        <br>
+        <label for="description" class="sr-only">Описание</label>
+        <br>
+        <input type="text" name="description" id="description" class="form-control" placeholder="description" required>
+        <br>
+        <br>
+        <button class="" type="submit" style="font-size:20px" >Подай</button>
+    </form>
+</body>
+
+</html>
+
+<script type="text/javascript">
+
+    var dataPeek;
+
+    let test = () => {
+        let innerHtml = "";
+
+        $.ajax({
+             type : "GET",
+             url : "http://localhost:8080/grade",
+             contentType: "application/json",
+             dataType: "json",
+             success : function (data, status) {
+
+                for(let grade of data){
+                    innerHtml += "<tr><td>" + grade.subject.name + "</td> <td>"+ grade.grade + "</td></tr>" ;
+
+
+                    var para = document.createElement("p");
+                    var node = document.createTextNode("This is new.");
+                    para.appendChild(node);
+
+                    var element = document.getElementById("subjects");
+                    element.appendChild(para);
+
+                }
+
+                document.getElementById('subjects').innerHTML = innerHtml;
+
+                dataPeek = data;
+
+             },
+             error : function (status) {
+                console.log("error in test()");
+             }
+        });
+
+    };
+
+    var dataPeek2;
+    let subject = () => {
+            let el = document.getElementById('userName');
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/currentUser",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data, status) {
+                    let label = document.createElement("label");
+                    label.innerHTML = data.name;
+                    el.appendChild(label);
+
+                    dataPeek2 = data;
+
+                },
+                error: function (status) {
+                    console.log("error in subject()");
+                }
+            });
+
+        };
+
+    subject();
+
+    test();
+
+    </script>
